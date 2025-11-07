@@ -1,15 +1,20 @@
 #include <stdio.h>
-#include <string.h>
+#include <ctype.h>
 
 int main() {
-    char c = getchar();
+    int c;
+    int lettres[26] = {0};
     
-    int compteur = 0;
-
-    for (int i=0; i<strlen(c); i++) {
-        printf("%c", c);
-        compteur++;
+    while ((c = getchar()) != EOF) {
+        lettres[c - 'a']++;
     }
-
+    
+    printf("\nNombre d'occurrences de chaque lettre :\n");
+    for (int i = 0; i < 26; i++) {
+        if (lettres[i] > 0) {
+            printf("%c : %d\n", 'A' + i, lettres[i]);
+        }
+    }
+    
     return 0;
 }
