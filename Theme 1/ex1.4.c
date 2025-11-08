@@ -2,16 +2,18 @@
 #include <string.h>
 #include <ctype.h>
 
-int check(char *mot) {
+void deleteNonAlphaChar(char *mot) {
+    int writeIndex = 0;
+    
     for (int i = 0; i < strlen(mot); i++)
     {
-        if (mot[i] != '\0' && isalpha(mot[i])) // Check first character
+        if (isalpha(mot[i]))
         {
-            continue;
+            mot[writeIndex] = mot[i];
+            writeIndex++;
         }
-        return 0;
     }
-    return 1;
+    mot[writeIndex] = '\0';  // End la string au nouvel index
 }
 
 int main()
@@ -30,9 +32,8 @@ int main()
 
     while (mot != NULL)
     {
-        if (check(mot)) {
-            printf("%s \n", mot);
-        }
+        deleteNonAlphaChar(mot);
+        printf("%s \n", mot);
         mot = strtok(NULL, " - ");
     }
 
