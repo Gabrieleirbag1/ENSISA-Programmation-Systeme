@@ -3,12 +3,12 @@
 
 int main()
 {   
-    char test[] = "salut moi c est gabibou :)";
-    char phrase_str[] = ""; 
+    // char test[] = "salut moi c est gabibou :)";
+    char phrase_str[1024] = ""; 
 
     int c;
-    while ((c = getchar()) != EOF) {
-        strncat(phrase_str, &c, 1);
+    while ((c = getchar()) != '\n' && c != EOF) {
+        strncat(phrase_str, (char[]){c, '\0'}, 1);
     }
 
     char* mot = strtok(phrase_str, " - ");
