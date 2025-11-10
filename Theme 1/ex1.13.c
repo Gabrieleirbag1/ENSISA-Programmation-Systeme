@@ -1,41 +1,19 @@
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 
-unsigned int lire_16(void)
+int factorielle(int n)
 {
-    char *buff = NULL;
-    size_t sizeAllocated = 0;
-    
-    printf("> ");
-    size_t characters = getline(&buff, &sizeAllocated, stdin);
-
-    if (buff[characters - 1] == '\n') {
-        buff[characters - 1] = '\0';
-    }
-
-    unsigned int result = 0;
-    
-    for (int i = 0; i < strlen(buff); i++)
-    {
-        result <<= 4;
-        
-        if (buff[i] >= 'A' && buff[i] <= 'F') {
-            result += buff[i] - 'A' + 10;
-        } else {
-            result += buff[i] - '0';
-        }
-    }
-
-    printf("Valeur hexadécimale: %s\n", buff);
-    printf("Valeur décimale: %u\n", result);
-    
-    free(buff);
-    return result;
+    int f;
+    if (n <= 1)
+        f = 1;
+    else 
+        f = n * factorielle(n-1);
+    return f;
 }
 
 int main()
-{
-    lire_16();
+{   
+    int test = 4;
+    int test2 = factorielle(test);
+    printf("factorielle(%d) = %d\n", test, test2);
     return 0;
 }
