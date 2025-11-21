@@ -1,7 +1,23 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 
-int main() {
+int main(int argc, char *argv[])
+{
+    int opt;
+    int nb_lines = 10;
+
+    while ((opt = getopt(argc, argv, "nt:")) != -1)
+    {
+        switch (opt)
+        {
+        case 'n':
+            nb_lines = atoi(argv[2]);
+            break;
+        }
+    }
+
     FILE *fp;
     fp = fopen("file", "r");
     char c;
@@ -20,24 +36,35 @@ int main() {
 
     char final_string[1000];
 
-    int nb_lines = 10;
-    int count = 0;
-    size_t i = strlen(content);
-    for (i; i != 0; i--) {
-        if (nb_lines == 0) {
-            break;
-        }
-        
-        count = final_string[-i + strlen(content) + 1] = content[i];
-
-        if (content[i] == '\n') {
-            nb_lines--;
-        }
-    }
-    final_string[strlen(content) - i + 1] = '\0';
+    size_t len = strlen(content);
+    size_t start_pos = len;
     
-    for (unsigned int i; i < strlen(content); i++) {
-        putc(content[i], stdout);
+    // Find starting position (counting newlines from end)
+    int lines_found = 0;
+    for (size_t i = len; i > 0; i--)
+    {
+        if (content[i - 1] == '\n')
+        {
+            lines_found++;
+            if (lines_found == nb_lines)
+            {
+                start_pos = i;
+                break;
+            }
+        }
     }
+    if (lines_found < nb_lines) {
+        start_pos = 0;
+    }
+
+    size_t j = 0;
+    for (size_t i = start_pos; i < len; i++)
+    {
+        final_string[j++] = content[i];
+    }
+    final_string[j] = '\0';
+
+    printf("%s", final_string);
+
     return 0;
 }
