@@ -38,22 +38,16 @@ void readfiles(char *file, char *content, int *index)
 
 int main(int argc, char *argv[])
 {
-    int opt;
+    const char *archiveFileName = argv[1];
+    char files[10][10];
 
-    while ((opt = getopt(argc, argv, "nt:")) != -1)
-    {
-        switch (opt)
-        {
-        case 'n':
-            printf("s");
-            break;
-        }
+    for (unsigned int i = 2; i < argc; i++){
+        strcpy(files[i], argv[i]);
     }
 
     char content[1000];
     int index = 0;
 
-    char files[10][10] = {"basile", "vasile"};
     int num_files = sizeof(files) / sizeof(files[0]);
     for (int i = 0; i < num_files; i++) {
         if (files[i][0] == '\0') break;
