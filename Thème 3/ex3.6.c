@@ -19,8 +19,6 @@ int main()
     char *result = mon_strchr(chaine, car);
 
     if (result != NULL) {
-        // Calculate the position by subtracting the base
-        // pointer from the result pointer
         printf("Character '%c' found at position: %d\n",
                car, result);
     }
