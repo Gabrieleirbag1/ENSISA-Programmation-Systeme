@@ -72,6 +72,14 @@ void ecrire_prefixe(struct noeud *arbre)
     }
 }
 
+int profondeur_arbre(struct noeud *arbre) {
+    while (1) {
+        if (!arbre->code){
+            
+        }
+    }
+}
+
 int main()
 {
     char *buff = NULL;
