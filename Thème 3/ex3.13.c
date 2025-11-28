@@ -72,11 +72,33 @@ void ecrire_prefixe(struct noeud *arbre)
     }
 }
 
-int profondeur_arbre(struct noeud *arbre) {
-    while (1) {
-        if (!arbre->code){
-            
+int profondeur_arbre(struct noeud *arbre)
+{
+    struct noeud *a = arbre;
+    if (arbre == NULL)
+    {
+        return 0;
+    }
+    if (!arbre->code == noeud && !arbre->code == feuille)
+    {
+        return 1;
+    }
+    else
+    {
+        int prof_g = profondeur_arbre(arbre->u.s.fils_gauche);
+        int prof_d = profondeur_arbre(arbre->u.s.fils_gauche);
+
+        int max_prof;
+        if (prof_d > prof_g)
+        {
+            max_prof = prof_d;
         }
+        else
+        {
+            max_prof = prof_g;
+        }
+
+        return (max_prof + 1);
     }
 }
 
@@ -95,5 +117,7 @@ int main()
 
     struct noeud *n = lire_prefixe();
     ecrire_prefixe(n);
+    int profondeur = profondeur_arbre(n);
+    printf("\nLa profondeur de l'abre est %d\n", profondeur);
     return 0;
 }
