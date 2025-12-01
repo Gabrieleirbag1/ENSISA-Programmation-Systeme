@@ -147,6 +147,26 @@ int evaluer_arbre(struct noeud *arbre)
     }
 }
 
+void ecrire_algebrique(struct  noeud *arbre)
+{
+    if (arbre->code == feuille)
+    {
+        printf("%d", arbre->u.valeur);
+        printf(" ");
+    }
+    else
+    {
+        printf("(");
+        printf(" ");
+        ecrire_algebrique(arbre->u.s.fils_gauche);
+        printf("%c", arbre->u.s.operation);
+        printf(" ");
+        ecrire_algebrique(arbre->u.s.fils_droit);
+        printf(")");
+    }
+}
+
+
 int main()
 {
     char *buff = NULL;
@@ -162,6 +182,8 @@ int main()
 
     struct noeud *n = lire_prefixe();
     ecrire_prefixe(n);
+    printf("\n");
+    ecrire_algebrique(n);
     int profondeur = profondeur_arbre(n);
     int valeur = evaluer_arbre(n);
     printf("\nLa profondeur de l'arbre est %d\n", profondeur);
