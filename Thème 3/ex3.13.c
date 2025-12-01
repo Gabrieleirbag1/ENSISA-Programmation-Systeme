@@ -42,7 +42,7 @@ struct noeud *lire_prefixe(void)
         n->code = feuille;
         n->u.valeur = c - '0';
     }
-    else if (c == '+' || c == '*')
+    else if (c == '+' || c == '*' || c == '-' || c == '/')
     {
         n->code = noeud;
         n->u.s.operation = c;
@@ -86,7 +86,7 @@ int profondeur_arbre(struct noeud *arbre)
     else
     {
         int prof_g = profondeur_arbre(arbre->u.s.fils_gauche);
-        int prof_d = profondeur_arbre(arbre->u.s.fils_gauche);
+        int prof_d = profondeur_arbre(arbre->u.s.fils_droit);
 
         int max_prof;
         if (prof_d > prof_g)
@@ -99,6 +99,51 @@ int profondeur_arbre(struct noeud *arbre)
         }
 
         return (max_prof + 1);
+    }
+}
+
+int ajouter(int a, int b)
+{
+    return a + b;
+}
+
+int soustraire(int a, int b)
+{
+    return a - b;
+}
+
+int multiplier(int a, int b)
+{
+    return a * b;
+}
+
+int diviser(int a, int b)
+{
+    return a / b;
+}
+
+int evaluer_arbre(struct noeud *arbre)
+{
+    if (arbre->code == feuille)
+    {
+        return arbre->u.valeur;
+    }
+    else if (arbre->code == noeud)
+    {
+        char operation = arbre->u.s.operation;
+        int val_g = evaluer_arbre(arbre->u.s.fils_gauche);
+        int val_d = evaluer_arbre(arbre->u.s.fils_droit);
+        switch (operation)
+        {
+        case '+':
+            return ajouter(val_g, val_d);
+        case '-':
+            return soustraire(val_g, val_d);
+        case '*':
+            return multiplier(val_g, val_d);
+        case '/':
+            return diviser(val_g, val_d);
+        }
     }
 }
 
@@ -118,6 +163,8 @@ int main()
     struct noeud *n = lire_prefixe();
     ecrire_prefixe(n);
     int profondeur = profondeur_arbre(n);
-    printf("\nLa profondeur de l'abre est %d\n", profondeur);
+    int valeur = evaluer_arbre(n);
+    printf("\nLa profondeur de l'arbre est %d\n", profondeur);
+    printf("La valeur de l'expression est %d\n", valeur);
     return 0;
 }
