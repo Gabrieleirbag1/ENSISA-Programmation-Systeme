@@ -24,7 +24,17 @@ int main (int argc, char *argv[]) {
     }
 
     char command[512];
-    sprintf(command, "gunzip < /usr/share/man/man%c/%s.%c.gz | nroff -man", n, p, n);
+    
+    #if defined(__linux__)
+        sprintf(command, "gunzip < /usr/share/man/man%c/%s.%c.gz | nroff -man", n, p, n);
+    #elif defined(__hpux)
+        sprintf(command, "gunzip < /usr/man/man%c.Z/%s.%c | nroff -man", n, p, n);
+    #elif defined(__sun)
+        sprintf(command, "zcat /usr/share/man/man%c/%s.%c.gz | nroff -man", n, p, n);
+    #else
+        fprintf(stderr, "Système d'exploitation non supporté\n");
+        exit(EXIT_FAILURE);
+    #endif
 
     fp = popen(command, "r");
     if (fp == NULL) {
