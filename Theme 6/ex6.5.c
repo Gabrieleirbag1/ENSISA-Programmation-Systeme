@@ -7,9 +7,10 @@
 #include <fcntl.h>
 #include <sys/time.h>
 
-int main()
+int main(int argc, char *argv[])
 {
     struct timeval start, end;
+    char *dir = argv[1];
 
     if (gettimeofday(&start, NULL) == -1)
     {
@@ -28,7 +29,7 @@ int main()
 
     if (p == 0)
     {
-        execlp("ls", "ls", "-l", "dist", NULL);
+        execlp("ls", "ls", "-l", dir, NULL);
         perror("execlp failed");
         exit(EXIT_FAILURE);
     }
