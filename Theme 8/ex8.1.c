@@ -12,7 +12,7 @@ void copier(int fdsrc, int fddst)
     while ((n = read(fdsrc, buf, sizeof(buf))) > 0) {
         if (write(fddst, buf, n) != n) {
             perror("write failed");
-            exit(1);
+            exit(EXIT_FAILURE);
         }
     }
 }
