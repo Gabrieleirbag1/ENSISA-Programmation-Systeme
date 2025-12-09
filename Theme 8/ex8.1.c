@@ -7,7 +7,7 @@
 
 void copier(int fdsrc, int fddst)
 {
-    char buf[1024];  // Tampon de 1024 octets pour lire/écrire par blocs
+    char buf[1024];
     ssize_t n;
     while ((n = read(fdsrc, buf, sizeof(buf))) > 0) {
         if (write(fddst, buf, n) != n) {
@@ -19,12 +19,8 @@ void copier(int fdsrc, int fddst)
 
 int main(int argc, char *argv[])
 {
-    // Test de la fonction copier (étape 1) : recopier stdin vers stdout
     copier(0, 1);
 
-    // Le reste du programme (pipe, fork, etc.) sera ajouté à l'étape 2
-    // Pour l'instant, commentez ou supprimez les lignes suivantes pour tester seulement copier
-    /*
     int fd[2];
 
     if (pipe(fd) == -1) {
@@ -42,11 +38,17 @@ int main(int argc, char *argv[])
 
     if (p == 0)
     {
+        close(fd[1]);
+        copier(fd[0], 1);
+        close(fd[0]);
     }
     else
     {
+        close(fd[0]);
+        copier(0, fd[1]);
+        close(fd[1]);
         wait(NULL);
     }
-    */
+
     return 0;
 }
