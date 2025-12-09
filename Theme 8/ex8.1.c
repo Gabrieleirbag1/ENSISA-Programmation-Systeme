@@ -7,10 +7,12 @@
 
 void copier(int fdsrc, int fddst)
 {
-    char buf[1024];
+    char caracter;
     ssize_t n;
-    while ((n = read(fdsrc, buf, sizeof(buf))) > 0) {
-        if (write(fddst, buf, n) != n) {
+    while ((n = read(fdsrc, &caracter, 1)) > 0)
+    {
+        if (write(fddst, &caracter, n) != n)
+        {
             perror("write failed");
             exit(EXIT_FAILURE);
         }
