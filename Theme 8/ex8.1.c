@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
     if (pipe(fd) == -1) {
         perror("pipe failed");
-        exit(EXIT_FAILURE);
+        return 1;
     }
 
     pid_t p = fork();
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     if (p < 0)
     {
         perror("fork failed");
-        exit(EXIT_FAILURE);
+        return 1;
     }
 
     if (p == 0)

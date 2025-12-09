@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
         if (pipe(pipes[i]) == -1)
         {
             perror("pipe failed");
-            exit(EXIT_FAILURE);
+            return 1;
         }
     }
 
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
         if (p < 0)
         {
             perror("fork failed");
-            exit(EXIT_FAILURE);
+            return 1;
         }
 
         if (p == 0)
