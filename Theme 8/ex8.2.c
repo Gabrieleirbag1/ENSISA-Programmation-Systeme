@@ -27,6 +27,14 @@ int main(int argc, char *argv[])
     int n_pipes = n_process - 1;
 
     int pipes[n_process][2];
+    for (int i = 0; i < n_pipes; i++)
+    {
+        if (pipe(pipes[i]) == -1)
+        {
+            perror("pipe failed");
+            exit(EXIT_FAILURE);
+        }
+    }
 
     for (unsigned int i = 0; i < n_pipes; i++)
     {
