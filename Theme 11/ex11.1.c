@@ -38,7 +38,7 @@ int main()
             total += len - 1;
         }
         
-        printf("Total octets reçus: %d\n", total);
+        printf("Octets reçus: %d\n", total);
         mq_close(mq);
         exit(0);
     }
