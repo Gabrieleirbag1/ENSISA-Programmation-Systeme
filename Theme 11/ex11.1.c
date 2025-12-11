@@ -19,7 +19,7 @@ int main()
     attr.mq_curmsgs = 0;
     
     mq = mq_open("/q", O_CREAT | O_RDWR, 0644, &attr);
-    if (mq == (mqd_t)-1) {
+    if (mq == -1) {
         perror("mq_open");
         return 1;
     }
