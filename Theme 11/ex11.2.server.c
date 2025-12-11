@@ -5,11 +5,11 @@
 #include <string.h>
 
 struct msg {
-    int priority;
+    long mtype;
     char data[256];
 };
 
-void traite(char *data){
+void traite(char *data) {
     printf("-%s \n", data);
 }
 
@@ -19,12 +19,21 @@ int main() {
     struct msg msg;
 
     while (1) {
-        msgrcv(msgid, &msg, sizeof(msg.data), 0, 0);
-        if (strlen(msg.data) == 0) break;
-        traite(msg.data);
+        int received = 0;
+        if (msgrcv(msgid, &msg, sizeof(msg.data), 1, IPC_NOWAIT) != -1) {
+            received = 1;
+        } else if (msgrcv(msgid, &msg, sizeof(msg.data), 2, IPC_NOWAIT) != -1) {
+            received = 1;
+        } else if (msgrcv(msgid, &msg, sizeof(msg.data), 3, IPC_NOWAIT) != -1) {
+            received = 1;
+        }
+
+        if (received) {
+            if (strlen(msg.data) == 0) break;
+            traite(msg.data);
+        }
     }
 
     msgctl(msgid, IPC_RMID, NULL);
-
     return 0;
 }
