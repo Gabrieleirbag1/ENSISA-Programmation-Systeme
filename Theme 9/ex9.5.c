@@ -1,0 +1,76 @@
+#define _XOPEN_SOURCE 700
+
+#include <stdio.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <sys/time.h>
+#include <string.h>
+
+ssize_t compteur;
+
+void write_file(char *content)
+{
+    FILE *fp2;
+    fp2 = fopen("titi", "a");
+    if (fp2 != NULL)
+    {
+        for (int i = 0; i < strlen(content); i++)
+        {
+            putc(content[i], fp2);
+        }
+        fclose(fp2);
+    }
+}
+
+void handle_sigint(int sig_num)
+{
+    struct timeval t;
+
+    if (gettimeofday(&t, NULL) == -1)
+    {
+        perror("gettimeofday failed");
+        exit(EXIT_FAILURE);
+    }
+    double time_in_seconds = t.tv_sec + (t.tv_usec / 1000000.0);
+
+    char str_compteur[20];
+    char str_time[20];
+    char content[40];
+
+    sprintf(str_compteur, "%ld", compteur);
+    sprintf(str_time, "%.6f", time_in_seconds);
+
+    strcpy(content, str_compteur);
+    strcat(content, " ");
+    strcat(content, str_time);
+
+    write_file(content);
+}
+
+void handle_sigterm(int sig_num)
+{
+    char *content = "fin";
+    write_file(content);
+    exit(0);
+}
+
+int main()
+{
+    struct sigaction s;
+    s.sa_handler = handle_sigint;
+    sigaction(SIGINT, &s, NULL);
+
+    struct sigaction s2;
+    s.sa_handler = handle_sigterm;
+    sigaction(SIGTERM, &s, NULL);
+
+    while (1)
+    {
+        compteur++;
+        if (compteur > 10000000000)
+        {
+            raise(SIGTERM);
+        }
+    }
+    return 0;
+}
