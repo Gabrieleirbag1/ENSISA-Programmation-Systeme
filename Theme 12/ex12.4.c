@@ -43,7 +43,7 @@ int main()
             return 1;
         }
     }
-    printf("Compteur : %ld", count);
+    printf("Compteur : %ld \n", count);
     return 0;
 }
 
